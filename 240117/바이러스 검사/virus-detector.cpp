@@ -1,40 +1,35 @@
 #include <iostream>
 using namespace std;
 
-
-long long calc(long long array[], long long n, long long ldr, long long mbr){
+long long calc(long long array[], long long n, long long ldr, long long mbr) {
     long long total = 0;
-    for (int i = 0; i < n; i++){
-        if ((array[i] - ldr) == 0){
-            ++total;  // the leader took care of all of the customers
-        } else {
-            long long cust = array[i] - ldr;
-            if (cust % mbr == 0){
-                long long members = cust/mbr;
-                for (int j = 0; j < members; j++){
-                    ++total;
-                }
-            } else {
-                long long members = cust/mbr;
-                for (int j = 0; j < members; j++){
-                    ++total;
-                }
-                if (long long remain = cust%mbr <= mbr){
-                    ++total;
-            }
+    for (int i = 0; i < n; i++) {
+        long long cust = array[i];
+
+        // If there are customers in the restaurant
+        if (cust > 0) {
+            // Increment the total count for the team leader
+            ++total;
+
+            // Calculate the remaining customers after the team leader inspection
+            cust -= ldr;
+
+            // If there are remaining customers, calculate the number of team members needed
+            if (cust > 0) {
+                long long members = (cust + mbr - 1) / mbr;
+                total += members;
             }
         }
     }
-        return total;
-    }
-
+    return total;
+}
 
 int main() {
     long long num;
     cin >> num;
     long long restaurant[num];
 
-    for (int i = 0; i < num; i++){
+    for (int i = 0; i < num; i++) {
         long long people;
         cin >> people;
         restaurant[i] = people;
@@ -46,10 +41,6 @@ int main() {
     long long result = calc(restaurant, num, ldr, mbr);
 
     cout << result;
-
-
-
-
 
     return 0;
 }
